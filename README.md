@@ -2,7 +2,7 @@
 
 # Todoist::Api
 
-Gem to wrap the Todoist Api v6
+Gem to wrap the Todoist Api v6 as described on https://developer.todoist.com/
 
 ## Installation
 

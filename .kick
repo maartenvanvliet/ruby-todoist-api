@@ -1,0 +1,18 @@
+require 'set'
+require 'benchmark'
+
+process do |file, flags|
+  test_files = Set.new
+  case file
+  when %r(^spec/.*_spec.rb$)
+    test_files << file
+  when %r(^lib/(.*).rb)
+    test_files << 'spec/lib/' + $1 + '_spec.rb'
+  when %r(^spec/helpers/expected)
+    test_files.merge Dir['spec/helpers/**/*_spec.rb']
+  end
+  test_files = test_files.select { |filename| File.exist?(filename) }
+  unless test_files.empty?
+    watcher.execute("bundle exec rspec --fail-fast #{test_files.to_a.join(' ')}")
+  end
+end

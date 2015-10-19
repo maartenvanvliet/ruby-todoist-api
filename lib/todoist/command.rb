@@ -5,7 +5,7 @@ module Todoist
     def initialize(type, arguments, temp_id = nil, uuid = nil)
       @type = type
       @arguments = arguments
-      @temp_id = temp_id || SecureRandom.uuid
+      @temp_id = temp_id
       @uuid = uuid || SecureRandom.uuid
     end
 
@@ -15,7 +15,7 @@ module Todoist
         temp_id: temp_id,
         uuid: uuid,
         args: arguments
-      }
+      }.merge(temp_id ? { temp_id: temp_id} : {})
     end
   end
 end

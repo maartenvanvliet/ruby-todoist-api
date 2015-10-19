@@ -1,26 +1,27 @@
+[![Build Status](https://travis-ci.org/maartenvanvliet/ruby-todoist-api.svg)](https://travis-ci.org/maartenvanvliet/ruby-todoist-api)
+
 # Todoist::Api
 
-TODO: Write a gem description
+Gem to wrap the Todoist Api v6
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'todoist-api'
+gem 'todoist-api', git: 'https://github.com/maartenvanvliet/ruby-todoist-api', branch: 'master', require: 'todoist'
+
 ```
 
 And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install todoist-api
-
 ## Usage
 
-TODO: Write usage instructions here
+    todoist = Todoist::Client.new(todoist_token)
+    todoist.items.create(content: 'Some new todo')
+    todoist.process_queue
 
 ## Contributing
 

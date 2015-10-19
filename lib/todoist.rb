@@ -36,5 +36,6 @@ end
 
 require 'todoist/client'
 require 'todoist/command'
+require 'todoist/manager'
 require 'todoist/item_manager'
 require 'todoist/request'

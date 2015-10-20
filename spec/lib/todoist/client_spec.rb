@@ -3,6 +3,7 @@ require "spec_helper"
 describe Todoist::Client do
 
   let(:client) { described_class.new("api_token") }
+
   it "sets a api token when given one string argument" do
     expect(client.token).to eq 'api_token'
   end

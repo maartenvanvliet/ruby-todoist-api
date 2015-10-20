@@ -7,12 +7,28 @@ module Todoist
       clear_queue!
     end
 
+    def base_url
+      "https://todoist.com"
+    end
+
+    def filters
+      @filters ||= FilterManager.new(self)
+    end
+
     def items
       @items ||= ItemManager.new(self)
     end
 
-    def base_url
-      "https://todoist.com"
+    def notes
+      @notes ||= NoteManager.new(self)
+    end
+
+    def projects
+      @projects ||= ProjectManager.new(self)
+    end
+
+    def reminders
+      @reminders ||= ReminderManager.new(self)
     end
 
     def post(path, payload)

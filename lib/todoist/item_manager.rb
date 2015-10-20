@@ -1,10 +1,6 @@
 module Todoist
   class ItemManager < Manager
 
-    def create(arguments, tmp_id = SecureRandom.uuid)
-      @client.add_to_queue(create_command('item_add', arguments, tmp_id))
-    end
-
     def update(id, arguments)
       @client.add_to_queue(create_command('item_update', arguments.merge({id: id})))
     end

@@ -1,24 +1,24 @@
 require "spec_helper"
 
-describe Todoist::ItemManager do
+describe Todoist::Service::Label do
 
   let(:client) { Todoist::Client.new("api_token") }
-  let(:item_manager) { described_class.new(client) }
+  let(:label_service) { described_class.new(client) }
 
   describe "creating an item" do
-    let(:arguments) { {content: 'Todo item content'} }
+    let(:arguments) { {name: 'Label name'} }
     it "can create an item" do
       expect{
-        item_manager.create(arguments)
+        label_service.create(arguments)
       }.to change{ client.queue.length}.by(+1)
 
-      expect(client.queue.last.type).to eq 'item_add'
+      expect(client.queue.last.type).to eq 'label_add'
       expect(client.queue.last.arguments).to eq arguments
     end
 
     it "create an item with custom tmp id" do
       expect{
-        item_manager.create(arguments, 'temporary id')
+        label_service.create(arguments, 'temporary id')
       }.to change{ client.queue.length}.by(+1)
 
       expect(client.queue.last.temp_id).to eq 'temporary id'

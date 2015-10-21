@@ -12,23 +12,23 @@ module Todoist
     end
 
     def filters
-      @filters ||= FilterManager.new(self)
+      @filters ||= Service::Filter.new(self)
     end
 
     def items
-      @items ||= ItemManager.new(self)
+      @items ||= Service::Item.new(self)
     end
 
     def notes
-      @notes ||= NoteManager.new(self)
+      @notes ||= Service::Note.new(self)
     end
 
     def projects
-      @projects ||= ProjectManager.new(self)
+      @projects ||= Service::Project.new(self)
     end
 
     def reminders
-      @reminders ||= ReminderManager.new(self)
+      @reminders ||= Service::Reminder.new(self)
     end
 
     def post(path, payload)

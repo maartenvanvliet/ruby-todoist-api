@@ -1,15 +1,15 @@
 require "spec_helper"
 
-describe Todoist::ReminderManager do
+describe Todoist::Service::Reminder do
 
   let(:client) { Todoist::Client.new("api_token") }
-  let(:reminder_manager) { described_class.new(client) }
+  let(:reminder_service) { described_class.new(client) }
 
   describe "creating a reminder" do
     let(:arguments) { {name: 'Label name'} }
     it "can create a reminder" do
       expect{
-        reminder_manager.create(arguments)
+        reminder_service.create(arguments)
       }.to change{ client.queue.length}.by(+1)
 
       expect(client.queue.last.type).to eq 'reminder_add'
@@ -18,7 +18,7 @@ describe Todoist::ReminderManager do
 
     it "create a reminder with custom tmp id" do
       expect{
-        reminder_manager.create(arguments, 'temporary id')
+        reminder_service.create(arguments, 'temporary id')
       }.to change{ client.queue.length}.by(+1)
 
       expect(client.queue.last.temp_id).to eq 'temporary id'

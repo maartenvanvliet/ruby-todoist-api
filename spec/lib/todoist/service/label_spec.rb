@@ -6,7 +6,8 @@ describe Todoist::Service::Label do
   let(:label_service) { described_class.new(client) }
 
   describe "creating an item" do
-    let(:arguments) { {name: 'Label name'} }
+    let(:arguments) { resource_without_id('label') }
+
     it "can create an item" do
       expect{
         label_service.create(arguments)
@@ -22,6 +23,11 @@ describe Todoist::Service::Label do
       }.to change{ client.queue.length}.by(+1)
 
       expect(client.queue.last.temp_id).to eq 'temporary id'
+    end
+
+    it "returns an label" do
+      label = label_service.create(arguments, 'temporary id')
+      expect(label.to_submittable_hash).to eq(arguments)
     end
   end
 end

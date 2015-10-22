@@ -6,7 +6,8 @@ describe Todoist::Service::Item do
   let(:item_service) { described_class.new(client) }
 
   describe "creating an item" do
-    let(:arguments) { {content: 'Todo item content'} }
+    let(:arguments) { resource_without_id('item') }
+
     it "can create an item" do
       expect{
         item_service.create(arguments)
@@ -22,6 +23,11 @@ describe Todoist::Service::Item do
       }.to change{ client.queue.length}.by(+1)
 
       expect(client.queue.last.temp_id).to eq 'temporary id'
+    end
+
+    it "returns an item" do
+      item = item_service.create(arguments, 'temporary id')
+      expect(item.to_submittable_hash).to eq(arguments)
     end
   end
 end

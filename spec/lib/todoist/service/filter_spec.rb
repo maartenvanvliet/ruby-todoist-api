@@ -6,7 +6,8 @@ describe Todoist::Service::Filter do
   let(:filter_service) { described_class.new(client) }
 
   describe "creating a filter" do
-    let(:arguments) { {name: 'Label name'} }
+    let(:arguments) { resource_without_id('filter') }
+
     it "can create a filter" do
       expect{
         filter_service.create(arguments)
@@ -22,6 +23,11 @@ describe Todoist::Service::Filter do
       }.to change{ client.queue.length}.by(+1)
 
       expect(client.queue.last.temp_id).to eq 'temporary id'
+    end
+
+    it "returns an filter" do
+      filter = filter_service.create(arguments, 'temporary id')
+      expect(filter.to_submittable_hash).to eq(arguments)
     end
   end
 end

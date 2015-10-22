@@ -6,7 +6,8 @@ describe Todoist::Service::Project do
   let(:project_service) { described_class.new(client) }
 
   describe "creating a project" do
-    let(:arguments) { {name: 'Project name'} }
+    let(:arguments) { resource_without_id('project') }
+
     it "can create an project" do
       expect{
         project_service.create(arguments)
@@ -22,6 +23,11 @@ describe Todoist::Service::Project do
       }.to change{ client.queue.length}.by(+1)
 
       expect(client.queue.last.temp_id).to eq 'temporary id'
+    end
+
+    it "returns an project" do
+      project = project_service.create(arguments, 'temporary id')
+      expect(project.to_submittable_hash).to eq(arguments)
     end
   end
 end

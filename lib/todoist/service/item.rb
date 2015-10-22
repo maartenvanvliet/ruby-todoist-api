@@ -1,7 +1,6 @@
 module Todoist
   module Service
     class Item < BaseService
-
       def update(id, arguments)
         @client.add_to_queue(create_command('item_update', arguments.merge({id: id})))
       end
@@ -15,6 +14,10 @@ module Todoist
 
       def close(id)
         @client.add_to_queue(create_command('item_close', {id: id}))
+      end
+
+      def collection_class
+        Todoist::Item
       end
     end
   end

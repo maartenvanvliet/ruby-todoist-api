@@ -27,6 +27,17 @@ module Todoist
       due_date_utc
       due_date
       date_added
+      postpone_count
+      complete_count
+      mm_offset
+      seq_no
+    )
+
+    define_read_only_attributes %w(
+      postpone_count
+      complete_count
+      mm_offset
+      seq_no
     )
   end
 end

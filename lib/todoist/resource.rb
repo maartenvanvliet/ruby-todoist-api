@@ -1,10 +1,14 @@
 module Todoist
   module Resource
     module ClassMethods
-      attr_reader :attributes
+      attr_reader :attributes, :read_only_attributes
 
       def define_attributes(attributes)
         attr_accessor(*@attributes = attributes)
+      end
+
+      def define_read_only_attributes(attributes)
+        @read_only_attributes = attributes
       end
     end
 
@@ -34,7 +38,11 @@ module Todoist
     end
 
     def to_submittable_hash
-      attributes
+      if self.class.read_only_attributes
+        attributes.delete_if { |key, value| self.class.read_only_attributes.include?(key)}
+      else
+        attributes
+      end
     end
   end
 end

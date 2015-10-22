@@ -17,5 +17,9 @@ module Todoist
       archived_date
       archived_timestamp
     )
+
+    def items
+      @items ||= Service::Item.new(self)
+    end
   end
 end

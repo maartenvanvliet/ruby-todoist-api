@@ -34,7 +34,12 @@ module Todoist
     def post(path, payload)
       post_request = Request.post(path, payload.merge(token: token))
 
-      post_request.execute(base_url)
+      response = post_request.execute(base_url)
+      JSON.parse(response.body)
+    end
+
+    def query
+      @query ||= Query.new(self)
     end
 
     def sync_path

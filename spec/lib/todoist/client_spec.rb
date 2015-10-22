@@ -15,7 +15,9 @@ describe Todoist::Client do
   describe "request handling" do
     let!(:stub) {
       stub_request(:post, "https://todoist.com/path").
-         with(:body => {"payload"=>"payload", "token"=>"api_token"})
+        with(:body => {"payload"=>"payload", "token"=>"api_token"}).
+        to_return(:status => 200, :body => '{}')
+
     }
 
     it "can post a request" do
@@ -40,7 +42,9 @@ describe Todoist::Client do
     describe "sends the queue in a request" do
       let!(:stub) {
         stub_request(:post, "https://todoist.com/API/v6/sync").
-         with(:body => {"commands"=>"[{\"type\":\"test_command\"}]", "token"=>"api_token"})
+          with(:body => {"commands"=>"[{\"type\":\"test_command\"}]", "token"=>"api_token"}).
+          to_return(:status => 200, :body => '{}')
+
       }
 
       it "can post a request" do

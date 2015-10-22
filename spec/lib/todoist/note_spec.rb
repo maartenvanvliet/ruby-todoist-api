@@ -1,6 +1,8 @@
 require "spec_helper"
 
 describe Todoist::Note do
+
+
   it "can be built from json" do
     instance = described_class.new(json_response('note'))
 

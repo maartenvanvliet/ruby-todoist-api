@@ -1,9 +1,9 @@
 require "spec_helper"
 
 describe Todoist::Item do
-  it "can be built from json" do
-    instance = described_class.new(json_response('item'))
+  let(:instance) { described_class.new(json_response('item'))}
 
+  it "can be built from json" do
     expect(instance.attributes).to eq({
       "id"=>33511505,
       "user_id"=>1855589,
@@ -25,5 +25,15 @@ describe Todoist::Item do
       "is_archived"=>0
       }
     )
+  end
+
+  it "can be assigned a project" do
+    instance.project = Todoist::Project.new({'id' => 1})
+    expect(instance.project_id).to eq 1
+  end
+
+  it "can be assigned a user" do
+    instance.user = Todoist::User.new({'id' => 1})
+    expect(instance.user_id).to eq 1
   end
 end

@@ -10,7 +10,7 @@ describe Todoist::Service::Item do
 
     it "can create an item" do
       expect{
-        item_service.create(arguments)
+        item = item_service.create(arguments)
       }.to change{ client.queue.length}.by(+1)
 
       expect(client.queue.last.type).to eq 'item_add'
@@ -28,6 +28,19 @@ describe Todoist::Service::Item do
     it "returns an item" do
       item = item_service.create(arguments, 'temporary id')
       expect(item.to_submittable_hash).to eq(arguments)
+    end
+  end
+
+  describe "updating an item" do
+    let(:arguments) { json_response('item') }
+
+    it "can update an item" do
+      expect{
+        item = item_service.create(arguments)
+      }.to change{ client.queue.length}.by(+1)
+
+      expect(client.queue.last.type).to eq 'item_update'
+      expect(client.queue.last.arguments).to eq arguments
     end
   end
 end

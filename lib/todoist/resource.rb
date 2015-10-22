@@ -1,3 +1,4 @@
+require 'logger'
 module Todoist
   module Resource
     module ClassMethods
@@ -32,9 +33,21 @@ module Todoist
         if respond_to?(writer = attribute.to_s + '=')
           send(writer, value)
         else
-          puts "#{self.class} does not have an `#{attribute}' attribute"
+          logger.warn "#{self.class} does not have an `#{attribute}' attribute"
         end
       end
+    end
+
+    def to_hash
+      attributes
+    end
+
+    def create_command(name, arguments, tmp_id = nil)
+      command_class.new(name, arguments, tmp_id)
+    end
+
+    def command_class
+      @command_class ||= Command
     end
 
     def to_submittable_hash
@@ -43,6 +56,14 @@ module Todoist
       else
         attributes
       end
+    end
+
+    def resource_type
+      self.class.name.split('::').last.downcase
+    end
+
+    def persisted?
+      !id.nil?
     end
   end
 end

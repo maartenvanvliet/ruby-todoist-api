@@ -1,6 +1,7 @@
 require "spec_helper"
 
 describe Todoist::Filter do
+
   it "can be built from json" do
     instance = described_class.new(json_response('filter'))
 

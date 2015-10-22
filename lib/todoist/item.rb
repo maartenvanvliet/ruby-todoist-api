@@ -31,13 +31,24 @@ module Todoist
       complete_count
       mm_offset
       seq_no
+      has_notifications
     )
 
     define_read_only_attributes %w(
+      has_notifications
       postpone_count
       complete_count
       mm_offset
       seq_no
     )
+
+    def project=(project)
+      self.project_id = project.to_hash['id']
+    end
+
+    def user=(user)
+      self.user_id = user.to_hash['id']
+    end
+
   end
 end

@@ -20,6 +20,7 @@ module Todoist
     end
 
   end
+
   class Query
     def initialize(client)
       @client = client
@@ -43,6 +44,4 @@ module Todoist
       result_set
     end
   end
-
-
 end

@@ -4,7 +4,7 @@
 
 Gem to wrap the Todoist Api v6 as described on https://developer.todoist.com/
 
-*Note:* Until a more complete coverage of the all Todoist features is achieved the api is unstable and no semantic versioning will be applied. 
+*Note:* Until a more complete coverage of the all Todoist features is achieved the api is unstable and no semantic versioning will be applied.
 
 ## Goals
 
@@ -30,7 +30,7 @@ And then execute:
 
     todoist = Todoist::Client.new(todoist_token)
     todoist.items.create(content: 'Some new todo')
-    todoist.process_queue
+    todoist.process!
 
 ## Future
 

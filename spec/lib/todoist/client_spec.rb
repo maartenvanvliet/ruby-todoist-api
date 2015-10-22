@@ -31,12 +31,12 @@ describe Todoist::Client do
   describe "queue handling" do
     let(:command) { { 'type' => 'test_command'} }
     before do
-      client.add_to_queue(command)
+      client.queue.add(command)
     end
 
     it "can add a command to the queue" do
 
-      expect(client.queue).to eq([command])
+      expect(client.queue.first).to eq(command)
     end
 
     describe "sends the queue in a request" do
@@ -48,7 +48,7 @@ describe Todoist::Client do
       }
 
       it "can post a request" do
-        client.process_queue
+        client.process!
 
         expect(client.queue.length).to eq 0
         expect(stub).to have_been_requested

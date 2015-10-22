@@ -16,10 +16,17 @@ module Todoist
       is_archived
       archived_date
       archived_timestamp
+      inbox_project
+    )
+
+    define_read_only_attributes %w(
+      inbox_project
     )
 
     def items
-      @items ||= Service::Item.new(self)
+      @items ||= Service::Item.new(client)
     end
+
+
   end
 end

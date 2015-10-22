@@ -1,10 +1,10 @@
 module Todoist
   class Client
-    attr_reader :token, :queue
+    attr_reader :token, :queue, :_last_response
+    attr_writer :seq_no, :seq_no_global
 
     def initialize(token)
       @token = token
-      clear_queue!
     end
 
     def base_url
@@ -19,6 +19,10 @@ module Todoist
       @items ||= Service::Item.new(self)
     end
 
+    def labels
+      @labels ||= Service::Label.new(self)
+    end
+
     def notes
       @notes ||= Service::Note.new(self)
     end
@@ -31,34 +35,51 @@ module Todoist
       @reminders ||= Service::Reminder.new(self)
     end
 
+    def seq_no
+      @seq_no ||= 0
+    end
+
+    def seq_no_global
+      @seq_no_global ||= 0
+    end
+
+    def logger
+      @logger ||= Logger.new($stdout).tap do |log|
+        log.progname = 'todoist-api'
+      end
+    end
+
     def post(path, payload)
       post_request = Request.post(path, payload.merge(token: token))
 
-      response = post_request.execute(base_url)
-      JSON.parse(response.body)
+      response = @_last_response = post_request.execute(base_url)
+      parsed_response = JSON.parse(response.body)
+
+      self.seq_no_global = parsed_response['seq_no_global'] if parsed_response.is_a?(Hash) && parsed_response['seq_no_global']
+
+      parsed_response
     end
 
     def query
       @query ||= Query.new(self)
     end
 
-    def sync_path
-      "/API/v6/sync"
+    def queue
+      @queue ||= Queue.new(self)
+    end
+
+    def process!
+      queue.process!
     end
 
     def process_queue
-      commands = @queue
-      clear_queue!
-      post(sync_path, { commands: commands.map(&:to_hash).to_json})
-    end
-
-    def clear_queue!
-      @queue = []
+      logger.warn 'Deprecated process_queue'
+      queue.process!
     end
 
     def add_to_queue(command)
-      @queue ||= []
-      @queue << command
+      logger.warn 'Deprecated process_queue'
+      queue.add(command)
     end
   end
 end

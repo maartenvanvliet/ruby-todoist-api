@@ -18,5 +18,5 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "rspec", "~> 3"
-  spec.add_development_dependency "webmock"
+  spec.add_development_dependency "webmock", "~> 1.21.0"
 end

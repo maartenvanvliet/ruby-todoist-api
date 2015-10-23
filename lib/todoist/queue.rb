@@ -21,6 +21,7 @@ module Todoist
     end
 
     def process!
+      return if queue == []
       commands = queue
       clear_queue!
       @client.post(path, { commands: commands.map(&:to_hash).to_json})

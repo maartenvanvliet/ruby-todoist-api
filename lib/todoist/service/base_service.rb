@@ -52,22 +52,23 @@ module Todoist
         self.data = response[resource_type_plural.capitalize].map { |resource| collection_class.new(resource) }
       end
 
+      def create(params, temp_id = nil)
+        instance = build(params, temp_id)
+        save(instance)
+      end
+
       def build(params, temp_id = nil)
         instance = collection_class.new(params)
         instance.temp_id ||= temp_id
         instance
       end
 
-      def create(params, temp_id = nil)
-        instance = build(params, temp_id)
-        save(instance, temp_id)
-      end
-
-      def save(instance, temp_id = nil)
+      def save(instance)
         if instance.persisted?
-          @client.queue.add(create_command("#{resource_type}_update", instance.to_submittable_hash, temp_id))
+          @client.queue.add(create_command("#{resource_type}_update", instance))
         else
-          @client.queue.add(create_command("#{resource_type}_add", instance.to_submittable_hash, temp_id))
+          instance.temp_id ||= SecureRandom.uuid
+          @client.queue.add(create_command("#{resource_type}_add", instance))
         end
         instance
       end

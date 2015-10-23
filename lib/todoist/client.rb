@@ -2,6 +2,9 @@ module Todoist
   class Client
     attr_reader :token, :queue, :_last_response
     attr_writer :seq_no, :seq_no_global
+    attr_accessor :errors
+
+    SUCCES_STATUS_CODE = 200
 
     def initialize(token)
       @token = token
@@ -35,6 +38,14 @@ module Todoist
       @reminders ||= Service::Reminder.new(self)
     end
 
+    def query
+      @query ||= Query.new(self)
+    end
+
+    def queue
+      @queue ||= Queue.new(self)
+    end
+
     def seq_no
       @seq_no ||= 0
     end
@@ -53,19 +64,17 @@ module Todoist
       post_request = Request.post(path, payload.merge(token: token))
 
       response = @_last_response = post_request.execute(base_url)
-      parsed_response = JSON.parse(response.body)
 
-      self.seq_no_global = parsed_response['seq_no_global'] if parsed_response.is_a?(Hash) && parsed_response['seq_no_global']
+      if response.code.to_i != SUCCES_STATUS_CODE
+        self.errors = JSON.parse(@_last_response.body.to_s)
+        return false
+      else
+        parsed_response = JSON.parse(response.body)
 
-      parsed_response
-    end
+        self.seq_no_global = parsed_response['seq_no_global'] if parsed_response.is_a?(Hash) && parsed_response['seq_no_global']
 
-    def query
-      @query ||= Query.new(self)
-    end
-
-    def queue
-      @queue ||= Queue.new(self)
+        parsed_response
+      end
     end
 
     def process!

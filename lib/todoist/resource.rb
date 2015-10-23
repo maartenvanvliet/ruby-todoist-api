@@ -42,6 +42,10 @@ module Todoist
       attributes
     end
 
+    def logger
+      @logger ||=  Logger.new
+    end
+
     def create_command(name, arguments, tmp_id = nil)
       command_class.new(name, arguments, tmp_id)
     end

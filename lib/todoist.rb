@@ -6,6 +6,7 @@ module Todoist; end
 require 'todoist/client'
 require 'todoist/command'
 require 'todoist/resource'
+require 'todoist/error'
 require 'todoist/filter'
 require 'todoist/item'
 require 'todoist/label'

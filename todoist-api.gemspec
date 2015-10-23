@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Maarten van Vliet"]
   spec.email         = ["maartenvanvliet@gmail.com"]
   spec.summary       = %q{Wrapper for todoist api.}
-  spec.description   = %q{Wrapper for todoist api v6. Optional.}
-  spec.homepage      = ""
+  spec.description   = %q{Wrapper for todoist api v6.}
+  spec.homepage      = "https://github.com/maartenvanvliet/ruby-todoist-api"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")

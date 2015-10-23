@@ -13,6 +13,7 @@ describe Todoist::Query do
          with(:body => {"queries"=>"[\"tomorrow\",\"p1\"]", "token"=>"api_token"}).
          to_return(:status => 200, :body => json_response_raw('query'), :headers => {})
     end
+
     it "can create searches" do
 
       result = query.search(['tomorrow', 'p1'])

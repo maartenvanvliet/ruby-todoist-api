@@ -2,6 +2,8 @@ require 'json'
 
 module Todoist
   class Request
+    SUCCES_STATUS_CODE = 200
+
     attr_accessor :path, :net_http_method
 
     def initialize(path, net_http_method)
@@ -21,6 +23,7 @@ module Todoist
 
       response = http(uri).request(net_http_method)
     end
+
 
     def http(uri)
       net = Net::HTTP.new(uri.host, uri.port)

@@ -1,20 +1,23 @@
 module Todoist
   class Command
-    attr_accessor :type, :arguments, :temp_id, :uuid
+    attr_accessor :type, :object, :temp_id, :uuid
 
-    def initialize(type, arguments, temp_id = nil, uuid = nil)
+    def initialize(type, object, temp_id = nil, uuid = nil)
       @type = type
-      @arguments = arguments
-      @temp_id = temp_id
+      @object = object
+      @temp_id = object.temp_id
       @uuid = uuid || SecureRandom.uuid
+    end
+
+    def arguments
+      object.to_submittable_hash
     end
 
     def to_hash
       {
         type: type,
-        temp_id: temp_id,
         uuid: uuid,
-        args: arguments
+        args: object.to_submittable_hash
       }.merge(temp_id ? { temp_id: temp_id} : {})
     end
   end
